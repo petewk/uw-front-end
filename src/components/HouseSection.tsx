@@ -1,11 +1,14 @@
 import { useState, Fragment } from 'react';
+import React from 'react'
 
 
 function HouseSection({ house, quotes }){
 
+    const colorScheme = '--' + house.slug;
+
 
     return (
-    <div className='houseCard'>
+    <div className={`houseCard ${colorScheme}`} id={house.slug}>
         <p className='houseTitle'>{house.name}</p>
         <ul className='houseMembers'>
             {
@@ -14,7 +17,7 @@ function HouseSection({ house, quotes }){
 
                     return (
                         <Fragment key={member.slug}>
-                            <li >{member.name}</li>
+                            <li className='houseMemberName'>{member.name}</li>
                             {
                                 quotes.map((quote)=>{
                                     if(quote.character.slug === member.slug){
