@@ -11,7 +11,7 @@
   --stark: #8e8e8e;
   --targaryen: #c84348;
   --tarly: #889057;
-  --tarth: #1112c5;
+  --tarth: #5556b6;
   --tyrell: #10870f;
 }
 
@@ -30,6 +30,7 @@
 body{
   margin: 0;
   background-color: #1e1919;
+  line-height: 1.2rem;
 }
 
 
@@ -37,16 +38,27 @@ body{
 
 .containerButtonQuote {
   width: 97vw;
-  height: 30vh;
+  min-height: 30vh;
   text-align: center;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
+  padding: 20px 0px;
+}
+
+.getQuoteButton {
+  width: 150px;
+  height: 60px;
+  font-family: 'GoT';
+  font-weight: bold;
+  letter-spacing: .2rem;
+  margin-top: 30px;
 }
 
 .defaultText {
   color: white;
+  font-family: 'GoT';
 }
 
 .containerHouses {
@@ -60,124 +72,138 @@ body{
   gap: 10px 20px;
 }
 
-.getQuoteButton {
+.--undefined{
+  letter-spacing: 0.2rem;
+  padding: 20px;
+  width: 60%;
+}
+
+.GoTLogo {
   width: 150px;
-  height: 60px;
-  font-family: 'GoT';
-  font-weight: bold;
-  letter-spacing: .2rem;
-  margin-top: 30px;
+  height: 150px;
+  border: 2px solid grey;
+  border-radius: 50%;
+  filter: drop-shadow(0 0 1em grey)
 }
 
 
 /* individual house card styling */
 
 .--baelish{ 
-  scrollbar-color: var(--baelish) white;
+  scrollbar-color: var(--baelish) #303030;
   color: var(--baelish);
   border: 2px solid var(--baelish);
 }
 
 
 .--baratheon{ 
-  scrollbar-color: var(--baratheon) white;
+  scrollbar-color: var(--baratheon) #303030;
   color: var(--baratheon);
   border: 2px solid var(--baratheon);
 }
 
 
 .--bolton{ 
-  scrollbar-color: var(--bolton) white;
+  scrollbar-color: var(--bolton) #303030;
   color: var(--bolton);
   border: 2px solid var(--bolton);
 }
 
 
 .--clegane{ 
-  scrollbar-color: var(--clegane) white;
+  scrollbar-color: var(--clegane) #303030;
   color: var(--clegane);
   border: 2px solid var(--clegane);
 }
 
 
 .--frey{ 
-  scrollbar-color: var(--frey) white;
+  scrollbar-color: var(--frey) #303030;
   color: var(--frey);
   border: 2px solid var(--frey);
 }
 
 
 .--greyjoy{ 
-  scrollbar-color: var(--greyjoy) white;
+  scrollbar-color: var(--greyjoy) #303030;
   color: var(--greyjoy);
   border: 2px solid var(--greyjoy);
 }
 
 
 .--lannister{ 
-  scrollbar-color: var(--lannister) white;
+  scrollbar-color: var(--lannister) #303030;
   color: var(--lannister);
   border: 2px solid var(--lannister);
 }
 
 
 .--martell{ 
-  scrollbar-color: var(--martell) white;
+  scrollbar-color: var(--martell) #303030;
   color: var(--martell);
   border: 2px solid var(--martell);
 }
 
 
 .--mormont{ 
-  scrollbar-color: var(--mormont) white;
+  scrollbar-color: var(--mormont) #303030;
   color: var(--mormont);
   border: 2px solid var(--mormont);
 }
 
 
 .--stark{ 
-  scrollbar-color: var(--stark) white;
+  scrollbar-color: var(--stark) #303030;
   color: var(--stark);
   border: 2px solid var(--stark);
 }
 
 
 .--targaryen{ 
-  scrollbar-color: var(--targaryen) white;
+  scrollbar-color: var(--targaryen) #303030;
   color: var(--targaryen);
   border: 2px solid var(--targaryen);
 }
 
 
 .--tarly{ 
-  scrollbar-color: var(--tarly) white;
+  scrollbar-color: var(--tarly) #303030;
   color: var(--tarly);
   border: 2px solid var(--tarly);
 }
 
 
 .--tarth{ 
-  scrollbar-color: var(--tarth) white;
+  scrollbar-color: var(--tarth) #303030;
   color: var(--tarth);
   border: 2px solid var(--tarth);
 }
 
 
 .--tyrell{ 
-  scrollbar-color: var(--tyrell) white;
+  scrollbar-color: var(--tyrell) #303030;
   color: var(--tyrell);
   border: 2px solid var(--tyrell);
 }
 
+.recentQuoteOuterBox {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: inherit;
+}
+
+
 .mostRecentQuoteBox {
   width: 60%;
-  margin: 0 auto;
   font-family: 'GoT';
   letter-spacing: 0.2rem;
   padding: 20px;
   background-color:#303030;
   transition: .5s
 }
+
+
 
 .glow{
   filter: drop-shadow(0 0 1em)
@@ -186,7 +212,7 @@ body{
 
 .houseCard {
   text-wrap: wrap;
-  flex-basis: 30%;
+  flex-basis: 45%;
   transition: all 1s;
   height: 20vh;
   border-radius: 5px;
@@ -214,4 +240,26 @@ body{
   font-family: 'GoT';
   letter-spacing: .2rem;
   font-size: .85rem;
+  text-decoration: underline;
+  line-height: 2rem;
+  cursor: pointer;
+}
+
+.accordionBody {
+  width: 90%;
+  height:100px;
+  background-color: #6d6868;
+  transition: .5s;
+
+}
+
+.quoteText {
+  margin: 15px;
+}
+
+.closed {
+  height: 0px;
+  transition: .5s;
+  overflow-y: scroll;
+  scrollbar-width: thin;
 }

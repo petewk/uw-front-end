@@ -1,11 +1,14 @@
-import { useState, Fragment } from 'react';
-import React from 'react'
+import React, { useState, Fragment } from 'react';
 
 
 function HouseSection({ house, quotes }){
 
     const colorScheme = '--' + house.slug;
 
+
+    function openCloseAccordion(e){
+        e.target.firstElementChild.classList.toggle('closed')
+    }
 
     return (
     <div className={`houseCard ${colorScheme}`} id={house.slug}>
@@ -17,16 +20,33 @@ function HouseSection({ house, quotes }){
 
                     return (
                         <Fragment key={member.slug}>
-                            <li className='houseMemberName'>{member.name}</li>
+                            <li onClick={openCloseAccordion} className='houseMemberName'>{member.name}</li>
                             {
-                                quotes.map((quote)=>{
-                                    if(quote.character.slug === member.slug){
-                                        return (
-                                            <p key={quote.sentence}>{quote.sentence}</p>
-                                        )
-                                    }
-                                })
+                                quotes.filter((quote:object)=>{
+                                        return quote.character.slug === member.slug
+                                    }).length > 0 ?
+
+                                    <div className='accordionBody'>
+                                        <ul>
+                                            {
+                
+                                                quotes.filter((quote:object)=>{
+                                                    return quote.character.slug === member.slug
+                                                })?.map((value:object)=>{
+                                                    return (
+                                                        <li className="quoteText" key={value.sentence}>{value.sentence}</li>
+                                                    )
+                                                })
+                
+                                            }
+
+                                        </ul>
+                                    </div>
+                                    :
+                                    null
+
                             }
+
                         </Fragment>
                     )
                 })

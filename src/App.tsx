@@ -1,7 +1,6 @@
-import { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import './App.css'
 import HouseSection from './components/HouseSection.tsx'
-import React from 'react';
 
 
 
@@ -9,11 +8,22 @@ import React from 'react';
 
 function App() {
 
+  interface house {
+    name: string,
+    slug: string
+  }
+
+  interface character {
+    house: house,
+    name: string,
+    slug: string
+  }
+
   interface quoteElement {
-    character: object,
+    character: character,
     sentence: string,
     slug: string,
-    house: string
+    house: house
   }
   
   interface quoteElements extends Array<quoteElement>{}
@@ -29,13 +39,7 @@ function App() {
   })
 
 
-  function flashHouse(houseSlug){
-    console.log(houseSlug)
-    const houseCard = document.getElementById(houseSlug);
-    console.log(houseCard)
-  }
-
-
+    // Initial onLoad request to get all house info
   async function getHouses(){
     const result = await fetch ('https://api.gameofthronesquotes.xyz/v1/houses', {
       method: "GET"
@@ -44,6 +48,8 @@ function App() {
     setHouses(fetchedHouses)
   }
 
+
+    // onPress function to retrieve the quote, add to array of all previous, and update current quote 
   async function getQuote(){
     const newobject = await fetch('https://api.gameofthronesquotes.xyz/v1/random', {
       method: "GET"
@@ -55,9 +61,9 @@ function App() {
       getQuote()
     } else {
       setCurrentQuote(newjson)
+      console.log(currentQuote)
       setQuotes([...quotes, newjson])
     }
-    flashHouse(currentQuote.character.house.slug)
   }
 
 
@@ -69,16 +75,26 @@ function App() {
       {/* Section here displaying the most recent quote */}
 
       <div className='containerButtonQuote'>
-        {
-          currentQuote ? 
-          <div className={`${'--' + currentQuote.character.house.slug} mostRecentQuoteBox glow`}>
-            <p className='recentQuoteText'>{currentQuote.sentence}</p> 
-            <p className='recentQuoteName'>~{currentQuote.character.name}~</p>
+       
+          <div className='recentQuoteOuterBox'>
+            <img src='./src/assets/pngegg.png' alt="" className='GoTLogo'/>
+            <div className={`${'--' + currentQuote?.character.house.slug} mostRecentQuoteBox glow`}>
+            {
+              currentQuote ? 
+              <>
+                <p className='recentQuoteText'>{currentQuote.sentence}</p> 
+                <p className='recentQuoteName'>~{currentQuote.character.name}~</p>
+
+              </>
+              : 
+              <p className='defaultText'>Play the Game of Quotes</p>
+            }
+            </div>
+            <img src='./src/assets/pngegg.png' alt="" className='GoTLogo' style={{transform: 'scale(-1, 1)'}}/>
+
           </div>
             
-            : 
-            <p className='defaultText'>Click the button for a line</p>
-          }
+
           <button className='getQuoteButton' onClick={getQuote}>Click for a Quote</button>
       </div>
       
