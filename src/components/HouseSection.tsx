@@ -7,7 +7,7 @@ function HouseSection({ house, quotes }){
 
 
     function openCloseAccordion(e){
-        e.target.firstElementChild.classList.toggle('closed')
+        e.target.nextElementSibling.classList.toggle('closed')
     }
 
     return (
