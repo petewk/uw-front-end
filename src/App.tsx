@@ -48,9 +48,34 @@ function App() {
     setHouses(fetchedHouses)
   }
 
+  // Three functions here which handle how to highlight elements on screen, depending on whether or not the box to be highlighted is within scroll view
+  
+
+  function boxIsVisible(id:string):boolean{
+    let elementTop:number|undefined = document.getElementById(id)?.getBoundingClientRect().top;
+    let screenHeight:number = window.innerHeight;
+    return elementTop <= screenHeight;
+  }
+
+
+  function flashHouseBox(slug:string){
+    const houseBox:HTMLElement = document.querySelector(`#${slug}`)
+    houseBox.classList.toggle('glow') 
+  }
+
+  function flashScreenBottom(slug:string){
+    const bottomBorder:HTMLElement| null = document.querySelector('#bottomBorder');
+    bottomBorder.style.boxShadow = `0px -5px 13px 10px var(--${slug})`;
+    setTimeout(()=>{
+      bottomBorder.style.boxShadow = ``;
+    }, 1000)
+    flashHouseBox(slug)
+  }
+
 
     // onPress function to retrieve the quote, add to array of all previous, and update current quote 
   async function getQuote(){
+
     const newobject = await fetch('https://api.gameofthronesquotes.xyz/v1/random', {
       method: "GET"
     })
@@ -60,9 +85,24 @@ function App() {
       console.log('duplicated')
       getQuote()
     } else {
+
+      // remove glow from all elements
+      const glowing:Element[] = Array.from(document.querySelectorAll('.glow'));
+      glowing.forEach((node)=>{
+        node.classList.remove('glow')
+      })
+      
+      // set the current quote and adds to array
       setCurrentQuote(newjson)
-      console.log(currentQuote)
       setQuotes([...quotes, newjson])
+      const houseSlug:string = newjson.character.house.slug;
+
+      // handle the flash of relevant house, or if it's off the bottom of the screen, glow the bottom edge
+      if(boxIsVisible(houseSlug)){
+        flashHouseBox(houseSlug)
+      } else {
+        flashScreenBottom(houseSlug)
+      }
     }
   }
 
@@ -71,46 +111,51 @@ function App() {
 
 
   return (
-    <div>
-      {/* Section here displaying the most recent quote */}
+    <>
+      <div>
+        {/* Section here displaying the most recent quote */}
 
-      <div className='containerButtonQuote'>
-       
-          <div className='recentQuoteOuterBox'>
-            <img src='./src/assets/pngegg.png' alt="" className='GoTLogo'/>
-            <div className={`${'--' + currentQuote?.character.house.slug} mostRecentQuoteBox glow`}>
-            {
-              currentQuote ? 
-              <>
-                <p className='recentQuoteText'>{currentQuote.sentence}</p> 
-                <p className='recentQuoteName'>~{currentQuote.character.name}~</p>
+        <div className='containerButtonQuote'>
+        
+            <div className='recentQuoteOuterBox'>
+              <img src='./src/assets/pngegg.png' alt="" className='GoTLogo'/>
+              <div className={`${'--' + currentQuote?.character.house.slug} mostRecentQuoteBox glow`}>
+              {
+                currentQuote ? 
+                <>
+                  <p className='recentQuoteText'>{currentQuote.sentence}</p> 
+                  <p className='recentQuoteName'>~{currentQuote.character.name}~</p>
 
-              </>
-              : 
-              <p className='defaultText'>Play the Game of Quotes</p>
-            }
+                </>
+                : 
+                <p className='defaultText'>Play the Game of Quotes</p>
+              }
+              </div>
+              <img src='./src/assets/pngegg.png' alt="" className='GoTLogo' style={{transform: 'scale(-1, 1)'}}/>
+
             </div>
-            <img src='./src/assets/pngegg.png' alt="" className='GoTLogo' style={{transform: 'scale(-1, 1)'}}/>
+              
 
-          </div>
-            
+            <button className='getQuoteButton' onClick={getQuote}>Click for a Quote</button>
+        </div>
+        
+        {/* Box below containing houses which will flex grow on hover */}
 
-          <button className='getQuoteButton' onClick={getQuote}>Click for a Quote</button>
+        <div className='containerHouses'>
+          {
+            houses?.length > 0 &&
+            houses.map((house:quoteElement)=>{
+              return (
+                <HouseSection house={house} quotes={quotes} key={house.slug}/>
+              )
+            })
+          }
+        </div>
       </div>
-      
-      {/* Box below containing houses which will flex grow on hover */}
 
-      <div className='containerHouses'>
-        {
-          houses?.length > 0 &&
-          houses.map((house:quoteElement)=>{
-            return (
-              <HouseSection house={house} quotes={quotes} key={house.slug}/>
-            )
-          })
-        }
-      </div>
-    </div>
+      {/* // bottom border to glow colour of hidden houses */}
+      <div className='bottomBorder' id='bottomBorder'></div>
+    </>
   )
 }
 
