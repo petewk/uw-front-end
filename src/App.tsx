@@ -46,7 +46,7 @@ function App() {
         method: "GET"
       })
       if(!result.ok){
-        window.alert(`Response Status: ${result.status}`)
+        window.alert(`The API knows nothing, Jon Snow`)
       }
   
       const fetchedHouses = await result.json();
@@ -71,7 +71,11 @@ function App() {
 
   function flashHouseBox(slug:string){
     const houseBox:HTMLElement| null = document.querySelector(`#${slug}`)
-    houseBox!.classList.toggle('glow') 
+    try{
+      houseBox!.classList.toggle('glow') 
+    } catch(error){
+      console.log('This character has no house')
+    }
   }
 
   function flashScreenBottom(slug:string){
@@ -91,6 +95,7 @@ function App() {
       method: "GET"
     })
     const newjson:quoteElement = await newobject.json();
+    console.log(newjson);
     const hasDuplicate = quotes.some(element => element.sentence === newjson.sentence);
     if(hasDuplicate){
       console.log('duplicated')
@@ -129,25 +134,25 @@ function App() {
         <div className='containerButtonQuote'>
         
             <div className='recentQuoteOuterBox'>
-              <img src='./src/assets/pngegg.png' alt="" className='GoTLogo'/>
+              <img src='./src/assets/pngegg.png' alt="a picture of the Stark House coat of arms" className='GoTLogo'/>
               <div className={`${'--' + currentQuote?.character.house.slug} mostRecentQuoteBox glow`}>
               {
                 currentQuote ? 
                 <>
-                  <p className='recentQuoteText'>{currentQuote.sentence}</p> 
-                  <p className='recentQuoteName'>~{currentQuote.character.name}~</p>
+                  <p aria-live='assertive' className='recentQuoteText'>{currentQuote.sentence}</p> 
+                  <p aria-live='assertive' className='recentQuoteName'>~{currentQuote.character.name}~</p>
 
                 </>
                 : 
-                <p className='defaultText'>Play the Game of Quotes</p>
+                <p className='defaultText' aria-label='Play the game of quotes'>Play the Game of Quotes</p>
               }
               </div>
-              <img src='./src/assets/pngegg.png' alt="" className='GoTLogo' style={{transform: 'scale(-1, 1)'}}/>
+              <img src='./src/assets/pngegg.png' alt="a picture of the Stark House coat of arms" className='GoTLogo' style={{transform: 'scale(-1, 1)'}}/>
 
             </div>
               
 
-            <button className='getQuoteButton' onClick={getQuote}>Click for a Quote</button>
+            <button className='getQuoteButton' onClick={getQuote} aria-label='Click here for a quote'>Click for a Quote</button>
         </div>
         
         {/* Box below containing houses which will flex grow on hover */}

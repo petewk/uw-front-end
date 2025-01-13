@@ -97,105 +97,6 @@ body{
 
 
 
-/* individual house card styling */
-
-.--baelish{ 
-  scrollbar-color: var(--baelish) #303030;
-  color: var(--baelish);
-  border: 2px solid var(--baelish);
-}
-
-
-.--baratheon{ 
-  scrollbar-color: var(--baratheon) #303030;
-  color: var(--baratheon);
-  border: 2px solid var(--baratheon);
-}
-
-
-.--bolton{ 
-  scrollbar-color: var(--bolton) #303030;
-  color: var(--bolton);
-  border: 2px solid var(--bolton);
-}
-
-
-.--clegane{ 
-  scrollbar-color: var(--clegane) #303030;
-  color: var(--clegane);
-  border: 2px solid var(--clegane);
-}
-
-
-.--frey{ 
-  scrollbar-color: var(--frey) #303030;
-  color: var(--frey);
-  border: 2px solid var(--frey);
-}
-
-
-.--greyjoy{ 
-  scrollbar-color: var(--greyjoy) #303030;
-  color: var(--greyjoy);
-  border: 2px solid var(--greyjoy);
-}
-
-
-.--lannister{ 
-  scrollbar-color: var(--lannister) #303030;
-  color: var(--lannister);
-  border: 2px solid var(--lannister);
-}
-
-
-.--martell{ 
-  scrollbar-color: var(--martell) #303030;
-  color: var(--martell);
-  border: 2px solid var(--martell);
-}
-
-
-.--mormont{ 
-  scrollbar-color: var(--mormont) #303030;
-  color: var(--mormont);
-  border: 2px solid var(--mormont);
-}
-
-
-.--stark{ 
-  scrollbar-color: var(--stark) #303030;
-  color: var(--stark);
-  border: 2px solid var(--stark);
-}
-
-
-.--targaryen{ 
-  scrollbar-color: var(--targaryen) #303030;
-  color: var(--targaryen);
-  border: 2px solid var(--targaryen);
-}
-
-
-.--tarly{ 
-  scrollbar-color: var(--tarly) #303030;
-  color: var(--tarly);
-  border: 2px solid var(--tarly);
-}
-
-
-.--tarth{ 
-  scrollbar-color: var(--tarth) #303030;
-  color: var(--tarth);
-  border: 2px solid var(--tarth);
-}
-
-
-.--tyrell{ 
-  scrollbar-color: var(--tyrell) #303030;
-  color: var(--tyrell);
-  border: 2px solid var(--tyrell);
-}
-
 .recentQuoteOuterBox {
   display: flex;
   justify-content: space-around;
@@ -210,7 +111,8 @@ body{
   letter-spacing: 0.2rem;
   padding: 20px;
   background-color:#303030;
-  transition: .5s
+  transition: .5s;
+  color: white;
 }
 
 
@@ -223,7 +125,7 @@ body{
 .houseCard {
   text-wrap: wrap;
   flex-basis: 45%;
-  transition: all 1s;
+  transition: all .5s;
   height: 20vh;
   border-radius: 5px;
   scrollbar-width: 0px;
@@ -234,7 +136,7 @@ body{
 
 .houseCard:hover {
   height: 30vh;
-  transition: all 1s;
+  transition: all .5s;
   filter: drop-shadow(0 0 1em)
 }
 
@@ -265,6 +167,9 @@ body{
 
 .quoteText {
   margin: 15px;
+  color: white;
+  font-size: 1.15rem;
+  font-family: monospace;
 }
 
 .closed {
@@ -273,3 +178,102 @@ body{
   overflow-y: scroll;
   scrollbar-width: thin;
 }
+  
+  /* individual house card styling */
+  
+  .--baelish{ 
+    scrollbar-color: var(--baelish) #303030;
+    color: var(--baelish);
+    border: 2px solid var(--baelish);
+  }
+  
+  
+  .--baratheon{ 
+    scrollbar-color: var(--baratheon) #303030;
+    color: var(--baratheon);
+    border: 2px solid var(--baratheon);
+  }
+  
+  
+  .--bolton{ 
+    scrollbar-color: var(--bolton) #303030;
+    color: var(--bolton);
+    border: 2px solid var(--bolton);
+  }
+  
+  
+  .--clegane{ 
+    scrollbar-color: var(--clegane) #303030;
+    color: var(--clegane);
+    border: 2px solid var(--clegane);
+  }
+  
+  
+  .--frey{ 
+    scrollbar-color: var(--frey) #303030;
+    color: var(--frey);
+    border: 2px solid var(--frey);
+  }
+  
+  
+  .--greyjoy{ 
+    scrollbar-color: var(--greyjoy) #303030;
+    color: var(--greyjoy);
+    border: 2px solid var(--greyjoy);
+  }
+  
+  
+  .--lannister{ 
+    scrollbar-color: var(--lannister) #303030;
+    color: var(--lannister);
+    border: 2px solid var(--lannister);
+  }
+  
+  
+  .--martell{ 
+    scrollbar-color: var(--martell) #303030;
+    color: var(--martell);
+    border: 2px solid var(--martell);
+  }
+  
+  
+  .--mormont{ 
+    scrollbar-color: var(--mormont) #303030;
+    color: var(--mormont);
+    border: 2px solid var(--mormont);
+  }
+  
+  
+  .--stark{ 
+    scrollbar-color: var(--stark) #303030;
+    color: var(--stark);
+    border: 2px solid var(--stark);
+  }
+  
+  
+  .--targaryen{ 
+    scrollbar-color: var(--targaryen) #303030;
+    color: var(--targaryen);
+    border: 2px solid var(--targaryen);
+  }
+  
+  
+  .--tarly{ 
+    scrollbar-color: var(--tarly) #303030;
+    color: var(--tarly);
+    border: 2px solid var(--tarly);
+  }
+  
+  
+  .--tarth{ 
+    scrollbar-color: var(--tarth) #303030;
+    color: var(--tarth);
+    border: 2px solid var(--tarth);
+  }
+  
+  
+  .--tyrell{ 
+    scrollbar-color: var(--tyrell) #303030;
+    color: var(--tyrell);
+    border: 2px solid var(--tyrell);
+  }
