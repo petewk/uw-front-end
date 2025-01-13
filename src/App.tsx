@@ -38,14 +38,23 @@ function App() {
     getHouses();
   })
 
-
     // Initial onLoad request to get all house info
   async function getHouses(){
-    const result = await fetch ('https://api.gameofthronesquotes.xyz/v1/houses', {
-      method: "GET"
-    })
-    const fetchedHouses = await result.json();
-    setHouses(fetchedHouses)
+    try {
+
+      const result = await fetch ('https://api.gameofthronesquotes.xyz/v1/houses', {
+        method: "GET"
+      })
+      if(!result.ok){
+        window.alert(`Response Status: ${result.status}`)
+      }
+  
+      const fetchedHouses = await result.json();
+      setHouses(fetchedHouses)
+    } catch(error){
+      console.error(error.message)
+    }
+    
   }
 
   // Three functions here which handle how to highlight elements on screen, depending on whether or not the box to be highlighted is within scroll view
@@ -54,13 +63,15 @@ function App() {
   function boxIsVisible(id:string):boolean{
     let elementTop:number|undefined = document.getElementById(id)?.getBoundingClientRect().top;
     let screenHeight:number = window.innerHeight;
-    return elementTop <= screenHeight;
+    return elementTop! <= screenHeight;
+
+    // QUESTION: should I be using this non null assertion, if not then how to avoid it? Same problem is in the flashScreenBottom function below
   }
 
 
   function flashHouseBox(slug:string){
-    const houseBox:HTMLElement = document.querySelector(`#${slug}`)
-    houseBox.classList.toggle('glow') 
+    const houseBox:HTMLElement| null = document.querySelector(`#${slug}`)
+    houseBox!.classList.toggle('glow') 
   }
 
   function flashScreenBottom(slug:string){
