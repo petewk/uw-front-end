@@ -8,29 +8,29 @@ import HouseSection from './components/HouseSection.tsx'
 
 function App() {
 
-  interface house {
+  interface House {
     name: string,
     slug: string
   }
 
-  interface character {
-    house: house,
+  interface Character {
+    house: House,
     name: string,
     slug: string
   }
 
-  interface quoteElement {
-    character: character,
+  interface QuoteElement {
+    character: Character,
     sentence: string,
     slug: string,
-    house: house
+    house: House
   }
   
-  interface quoteElements extends Array<quoteElement>{}
+  interface QuoteElements extends Array<QuoteElement>{}
 
 
-  const [quotes, setQuotes] = useState<quoteElements>([]);
-  const [currentQuote, setCurrentQuote] = useState<quoteElement>();
+  const [quotes, setQuotes] = useState<QuoteElements>([]);
+  const [currentQuote, setCurrentQuote] = useState<QuoteElement>();
   const [houses, setHouses] = useState([]);
 
 
@@ -61,30 +61,34 @@ function App() {
   
 
   function boxIsVisible(id:string):boolean{
-    let elementTop:number|undefined = document.getElementById(id)?.getBoundingClientRect().top;
-    let screenHeight:number = window.innerHeight;
-    return elementTop! <= screenHeight;
+    let elementTop = document.getElementById(id)?.getBoundingClientRect().top || 0;
+    let screenHeight = window.innerHeight;
+    return elementTop <= screenHeight;
+    
 
     // QUESTION: should I be using this non null assertion, if not then how to avoid it? Same problem is in the flashScreenBottom function below
   }
 
 
   function flashHouseBox(slug:string){
-    const houseBox:HTMLElement| null = document.querySelector(`#${slug}`)
+    const houseBox = document.getElementById(slug)
     try{
-      houseBox!.classList.toggle('glow') 
+      houseBox?.classList.toggle('glow') 
     } catch(error){
       console.log('This character has no house')
     }
   }
 
   function flashScreenBottom(slug:string){
-    const bottomBorder:HTMLElement| null = document.querySelector('#bottomBorder');
-    bottomBorder.style.boxShadow = `0px -5px 13px 10px var(--${slug})`;
-    setTimeout(()=>{
-      bottomBorder.style.boxShadow = ``;
-    }, 1000)
-    flashHouseBox(slug)
+    const bottomBorder = document.getElementById('bottomBorder');
+    if(bottomBorder){
+      bottomBorder.style.boxShadow = `0px -5px 13px 10px var(--${slug})`;
+      setTimeout(()=>{
+        bottomBorder.style.boxShadow = ``;
+      }, 1000)
+      flashHouseBox(slug)
+    }
+    // bottomBorder.style.boxShadow = `0px -5px 13px 10px var(--${slug})`;
   }
 
 
@@ -94,7 +98,7 @@ function App() {
     const newobject = await fetch('https://api.gameofthronesquotes.xyz/v1/random', {
       method: "GET"
     })
-    const newjson:quoteElement = await newobject.json();
+    const newjson:QuoteElement = await newobject.json();
     console.log(newjson);
     const hasDuplicate = quotes.some(element => element.sentence === newjson.sentence);
     if(hasDuplicate){
@@ -103,7 +107,7 @@ function App() {
     } else {
 
       // remove glow from all elements
-      const glowing:Element[] = Array.from(document.querySelectorAll('.glow'));
+      const glowing:HTMLElement[] = Array.from(document.querySelectorAll('.glow'));
       glowing.forEach((node)=>{
         node.classList.remove('glow')
       })
@@ -138,13 +142,13 @@ function App() {
               <div className={`${'--' + currentQuote?.character.house.slug} mostRecentQuoteBox glow`}>
               {
                 currentQuote ? 
-                <>
-                  <p aria-live='assertive' className='recentQuoteText'>{currentQuote.sentence}</p> 
-                  <p aria-live='assertive' className='recentQuoteName'>~{currentQuote.character.name}~</p>
+                <span aria-live='assertive'>
+                  <p  className='recentQuoteText'>{currentQuote.sentence}</p> 
+                  <p  className='recentQuoteName'>~{currentQuote.character.name}~</p>
 
-                </>
+                </span>
                 : 
-                <p className='defaultText' aria-label='Play the game of quotes'>Play the Game of Quotes</p>
+                <p data-testid="defaultPrompt" className='defaultText'>Play the Game of Quotes</p>
               }
               </div>
               <img src='./src/assets/pngegg.png' alt="a picture of the Stark House coat of arms" className='GoTLogo' style={{transform: 'scale(-1, 1)'}}/>
@@ -160,7 +164,7 @@ function App() {
         <div className='containerHouses'>
           {
             houses?.length > 0 &&
-            houses.map((house:quoteElement)=>{
+            houses.map((house:QuoteElement)=>{
               return (
                 <HouseSection house={house} quotes={quotes} key={house.slug}/>
               )
