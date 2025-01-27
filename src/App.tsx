@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
-import './App.css'
 import HouseSection from './components/HouseSection.tsx'
+import './App.css'
 
 
 
@@ -135,7 +135,7 @@ function App() {
       <div>
         {/* Section here displaying the most recent quote */}
 
-        <div className='containerButtonQuote'>
+        <div  className='containerButtonQuote'>
         
             <div className='recentQuoteOuterBox'>
               <img src='./src/assets/pngegg.png' alt="a picture of the Stark House coat of arms" className='GoTLogo'/>

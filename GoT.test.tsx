@@ -1,7 +1,7 @@
+import React from 'react'
 import {findByTestId, render, screen} from '@testing-library/react'
 import '@testing-library/jest-dom'
 import App from './src/App'
-
 
 // function sum(a, b){
 //     return a+b
@@ -16,5 +16,7 @@ import App from './src/App'
 test('Shows a default call to action with no quotes', ()=>{
     render(<App />)
 
-    expect(screen.findByTestId('defaultPrompt')).toHaveTextContent('Play the Game of Quotes') 
+    const element = screen.getByTestId('defaultPrompt');
+    console.log(element)
+    expect(element).toHaveTextContent('Play the Game of Quotes')
 })
