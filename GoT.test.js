@@ -1,22 +1,20 @@
-import {render, screen} from '@testing-library/react'
+import {findByTestId, render, screen} from '@testing-library/react'
 import '@testing-library/jest-dom'
-import App from './src/App';
+import App from './src/App'
 
 
-
-
-// function plus1(){
-//   return 1+1
+// function sum(a, b){
+//     return a+b
 // }
 
-// test('plus 1', ()=>{
-//   expect(plus1()).toBe(2)
+
+// test('1 plus 2 equals 3', ()=>{
+//     expect(sum(1, 2)).toBe(3)
 // })
 
-test('testing the main App component', ()=>{
-  it('displays a prompt before any quotes retrieved', ()=>{
-    const {queryByTestId} = render(<App />);
-    const promptExists = !!queryByTestId('defaultPrompt')
-    expect(promptExists).toBe(true)
-  })
+
+test('Shows a default call to action with no quotes', ()=>{
+    render(<App />)
+
+    expect(screen.findByTestId('defaultPrompt')).toHaveTextContent('Play the Game of Quotes') 
 })
