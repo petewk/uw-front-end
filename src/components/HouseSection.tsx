@@ -1,4 +1,5 @@
 import React, { useState, Fragment } from 'react';
+import CharacterAccordion from './CharacterAccordion';
 
 
 function HouseSection({ house, quotes }){
@@ -26,20 +27,39 @@ function HouseSection({ house, quotes }){
       }
 
 
-    function openCloseAccordion(e){
-        if(e.target.nextElementSibling.nodeName === 'DIV'){
-            e.target.nextElementSibling.classList.toggle('closed')
-        }
-    }
+
 
     return (
         <div className="HouseSectionWrapper">
             <div data-testid="HouseSection" className={`houseCard ${colorScheme}`} id={house.slug}>
                 <p className='houseTitle'>{house.name}</p>
-                <ul className='houseMembers'>
 
-                    {/* Map through each member of a given house and add them to the section as a clickable list item */}
 
+                {/* Rebuilding this with the character accordion section  */}
+                {/* Render accordion component for each character, with the array of their quotes passed as a prop */}
+
+                {
+                    house.members.map((member:character)=>{
+                        
+                        const characterQuotes:quoteElement[] = [] 
+                        quotes.filter((quote:quoteElement)=>{
+                            if(quote.character.slug === member.slug){
+                                characterQuotes.push(quote)
+                            }
+                        })
+
+
+                        return(
+                            <CharacterAccordion characterQuotes={characterQuotes} member={member} key={member.slug}/>
+                        )
+                    })
+                }
+
+
+
+                {/* <ul className='houseMembers'>
+
+                
                     {
                         house.members.map((member)=>{
                             
@@ -48,17 +68,13 @@ function HouseSection({ house, quotes }){
                                 <Fragment key={member.slug}>
                                     <li onClick={openCloseAccordion} className='houseMemberName'>{member.name}</li>
 
-                                    {/* Filter through all the quotes and seperate out the ones which match this member */}
+                                
 
                                     {
                                         quotes.filter((quote:quoteElement)=>{
                                                 return quote.character.slug === member.slug
                                             }).length > 0 ?
-                                            
-                                            // if that filter returns anything, map through them and put each quote into the accordion body 
-                                            // Don't like this an awful lot because I'm filtering twice
-                                            // TODO find a way to do this with just one filter
-
+                                           
                                             <div className='accordionBody'>
                                                 <ul>
                                                     {
@@ -85,7 +101,7 @@ function HouseSection({ house, quotes }){
                         })
                     }
                     
-                </ul>
+                </ul> */}
 
             </div>
         </div>

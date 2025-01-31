@@ -172,9 +172,23 @@ body{
   font-family: 'GoT';
   letter-spacing: .2rem;
   font-size: .85rem;
-  text-decoration: underline;
+
   line-height: 2rem;
   cursor: pointer;
+  display: inline;
+  padding-left: 40px;
+}
+
+.nameText {
+  text-decoration: underline; 
+  pointer-events: none;
+}
+
+.quoteMarker {
+  display: inline;
+  text-decoration: none;
+  font-size: 1.5rem;
+  letter-spacing: .5rem;
 }
 
 .accordionBody {
@@ -187,7 +201,7 @@ body{
 }
 
 .quoteText {
-  margin: 15px;
+  margin: 10px;
   color: white;
   font-size: 1.15rem;
   font-family: monospace;
