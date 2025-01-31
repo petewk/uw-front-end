@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import HouseSection from './components/HouseSection.tsx'
 import './App.css'
-
+import TestComponent from './components/TestComponent.tsx'
 
 
 
@@ -32,6 +32,9 @@ function App() {
   const [quotes, setQuotes] = useState<QuoteElements>([]);
   const [currentQuote, setCurrentQuote] = useState<QuoteElement>();
   const [houses, setHouses] = useState([]);
+
+
+  const words = ['hello', 'world', 'this', 'is', 'a', 'test']
 
 
   useEffect(()=>{
@@ -166,11 +169,18 @@ function App() {
             houses?.length > 0 &&
             houses.map((house:QuoteElement)=>{
               return (
-                <HouseSection house={house} quotes={quotes} key={house.slug}/>
+                <HouseSection house={house} quotes={quotes} key={house.slug} />
               )
             })
           }
         </div>
+        {
+          words.map((word)=>{
+            return(
+              <TestComponent word={word}/>
+            )
+          })
+        }
       </div>
 
       {/* // bottom border to glow colour of hidden houses */}
