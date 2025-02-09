@@ -34,8 +34,6 @@ function App() {
   const [houses, setHouses] = useState([]);
 
 
-  const words = ['hello', 'world', 'this', 'is', 'a', 'test']
-
 
   useEffect(()=>{
     getHouses();
@@ -174,13 +172,6 @@ function App() {
             })
           }
         </div>
-        {
-          words.map((word)=>{
-            return(
-              <TestComponent word={word}/>
-            )
-          })
-        }
       </div>
 
       {/* // bottom border to glow colour of hidden houses */}
