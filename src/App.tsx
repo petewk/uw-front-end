@@ -39,7 +39,7 @@ function App() {
 
   useEffect(()=>{
     getHouses();
-  })
+  }, [])
 
     // Initial onLoad request to get all house info
   async function getHouses(){
@@ -174,13 +174,6 @@ function App() {
             })
           }
         </div>
-        {
-          words.map((word)=>{
-            return(
-              <TestComponent word={word}/>
-            )
-          })
-        }
       </div>
 
       {/* // bottom border to glow colour of hidden houses */}
