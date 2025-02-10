@@ -34,8 +34,6 @@ function App() {
   const [houses, setHouses] = useState([]);
 
 
-  const words = ['hello', 'world', 'this', 'is', 'a', 'test']
-
 
   useEffect(()=>{
     getHouses();
