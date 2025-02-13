@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react'
 import HouseSection from './components/HouseSection.tsx'
 import './App.css'
 import TestComponent from './components/TestComponent.tsx'
+import SignInScreen from './components/SignInModal.tsx'
+
 
 
 
@@ -32,7 +34,7 @@ function App() {
   const [quotes, setQuotes] = useState<QuoteElements>([]);
   const [currentQuote, setCurrentQuote] = useState<QuoteElement>();
   const [houses, setHouses] = useState([]);
-
+  const [signedIn, setSignedIn] = useState(false);
 
 
   useEffect(()=>{
@@ -133,49 +135,56 @@ function App() {
 
   return (
     <>
-      <div>
-        {/* Section here displaying the most recent quote */}
+    {
+      signedIn? 
+      <>
+        <div className='mainBox'>
+          {/* Section here displaying the most recent quote */}
 
-        <div  className='containerButtonQuote'>
-        
-            <div className='recentQuoteOuterBox'>
-              <img src='./src/assets/pngegg.png' alt="a picture of the Stark House coat of arms" className='GoTLogo'/>
-              <div className={`${'--' + currentQuote?.character.house.slug} mostRecentQuoteBox glow`}>
-              {
-                currentQuote ? 
-                <span aria-live='assertive'>
-                  <p  className='recentQuoteText'>{currentQuote.sentence}</p> 
-                  <p  className='recentQuoteName'>~{currentQuote.character.name}~</p>
+          <div  className='containerButtonQuote'>
+          
+              <div className='recentQuoteOuterBox'>
+                <img src='./src/assets/pngegg.png' alt="a picture of the Stark House coat of arms" className='GoTLogo'/>
+                <div className={`${'--' + currentQuote?.character.house.slug} mostRecentQuoteBox glow`}>
+                {
+                  currentQuote ? 
+                  <span aria-live='assertive'>
+                    <p  className='recentQuoteText'>{currentQuote.sentence}</p> 
+                    <p  className='recentQuoteName'>~{currentQuote.character.name}~</p>
 
-                </span>
-                : 
-                <p data-testid="defaultPrompt" className='defaultText'>Play the Game of Quotes</p>
-              }
+                  </span>
+                  : 
+                  <p data-testid="defaultPrompt" className='defaultText'>Play the Game of Quotes</p>
+                }
+                </div>
+                <img src='./src/assets/pngegg.png' alt="a picture of the Stark House coat of arms" className='GoTLogo' style={{transform: 'scale(-1, 1)'}}/>
+
               </div>
-              <img src='./src/assets/pngegg.png' alt="a picture of the Stark House coat of arms" className='GoTLogo' style={{transform: 'scale(-1, 1)'}}/>
+                
 
-            </div>
-              
+              <button className='getQuoteButton' onClick={getQuote} aria-label='Click here for a quote'>Click for a Quote</button>
+          </div>
+          
+          {/* Box below containing houses which will flex grow on hover */}
 
-            <button className='getQuoteButton' onClick={getQuote} aria-label='Click here for a quote'>Click for a Quote</button>
+          <div className='containerHouses'>
+            {
+              houses?.length > 0 &&
+              houses.map((house:QuoteElement)=>{
+                return (
+                  <HouseSection house={house} quotes={quotes} key={house.slug} />
+                )
+              })
+            }
+          </div>
         </div>
-        
-        {/* Box below containing houses which will flex grow on hover */}
 
-        <div className='containerHouses'>
-          {
-            houses?.length > 0 &&
-            houses.map((house:QuoteElement)=>{
-              return (
-                <HouseSection house={house} quotes={quotes} key={house.slug} />
-              )
-            })
-          }
-        </div>
-      </div>
-
-      {/* // bottom border to glow colour of hidden houses */}
-      <div className='bottomBorder' id='bottomBorder'></div>
+        {/* // bottom border to glow colour of hidden houses */}
+        <div className='bottomBorder' id='bottomBorder'></div>
+        </>
+      :
+      <SignInScreen signedIn={signedIn} setSignedIn={setSignedIn}/>
+    }
     </>
   )
 }
