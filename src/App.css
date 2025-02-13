@@ -63,34 +63,33 @@ body{
 }
 
 .authBox {
-  height: inherit;
-    width: 100%;
+  height: 100%;
+  width: 100%;
 }
 
 .authBoxSection {
-  width: 50%;
+  width: 100%;
   display: inline-flex;
-  height: 80%;
   flex-direction: column;
   justify-content: space-around;
   align-items: center;
   color: white;
+  height: inherit;
+  justify-content: space-around;
 }
 
 .authBoxSection input {
   width: 50%;
 }
 
-.authFormTitle {
 
-}
-
-.signInBox {
-
-}
-
-.registerBox{
-
+form {
+  height: 100%;
+    justify-content: space-around;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    align-items: center;
 }
 
 .authForms {

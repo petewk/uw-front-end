@@ -39,43 +39,57 @@ function SignInScreen({signedIn, setSignedIn}){
         console.log(direction)
     }
     
-    function signIn(event){
-        event.preventDefault();
-        signInWithEmailAndPassword(auth, userName, passWord)
-            .then((userCredential)=>{
-                if(userCredential){
-                    const user = userCredential
-                    setSignedIn(true)
-                }
-            })
-            .catch((error) => {
-                if(error == 'FirebaseError: Firebase: Error (auth/invalid-credential).'){
-                    console.log('bad login details, check again')
-                }
-                const errorCode = error.code;
-                const errorMessage = error.message;
-              });
-    }
     
-    function registerAccount(event){
-        event.preventDefault()
-        console.log(userName, passWord)
-        createUserWithEmailAndPassword(auth, userName, passWord)
-            .then((userCredential) => {
-                // Signed up 
-                if(userCredential){
-                    const user = userCredential.user;
-                    console.log(user)
-                }
-            })
-            .catch((error) => {
-                if(error == 'FirebaseError: Firebase: Error (auth/email-already-in-use).'){
-                    console.log('email already registered, handle this')
-                }
-                const errorCode = error.code;
-                const errorMessage = error.message;
-                // ..
-            });
+    function handleSignInRegister(buttonType){
+        switch(buttonType ){
+            case 'register':
+                createUserWithEmailAndPassword(auth, userName, passWord)
+                    .then((userCredential) => {
+                        // Signed up 
+                        if(userCredential){
+                            const user = userCredential.user;
+                            console.log(user)
+                        }
+                    })
+                    .catch((error) => {
+                        handleFirebaseError(error)
+                    });
+                    break;
+            case 'login' :
+                console.log('logging in')
+                signInWithEmailAndPassword(auth, userName, passWord)
+                    .then((userCredential) => {
+                        // Signed up 
+                        if(userCredential){
+                            const user = userCredential.user;
+                            console.log(user)
+                            setSignedIn(true)
+                        }
+                    })
+                    .catch((error) => {
+                        handleFirebaseError(error)
+                    });
+                    break;
+        }
+    }
+
+    function handleFirebaseError(error){
+        switch(error.code){
+            case 'auth/invalid-email':
+                console.log('problem with your login email')
+                break;
+
+            case 'auth/invalid-credential':
+                console.log('problem with your password')
+                 break;
+
+            case 'auth/email-already-in-use':
+                console.log('you already have an account');
+                break;
+
+            case 'auth/too-many-requests':
+                console.log('too many attempts, relax for a minute')
+        }
     }
 
     function handleEmailChange(event){
@@ -89,41 +103,21 @@ function SignInScreen({signedIn, setSignedIn}){
     return (
         <div className='signInFullScreen'>
             <div className='authContainer'>
-                <div className='authTopButtons'>
-                    <button onClick={()=>{moveBox('right')}}>Log In</button>
-                    <button onClick={()=>{moveBox('left')}}>Register</button>
-                </div>
                 <div className='authBox'>
                     <div className='authBoxSection signInBox'>
-                        <p className='authFormName'>Sign in going here</p>
-                        <form onSubmit={signIn}>
-                        <label>
-                                E-mail:
+                        <form onSubmit={(event)=>event.preventDefault()}>
+                            <label>
+                            E-mail:
                                 <input onChange={handleEmailChange} placeholder='e-mail' type='email'></input>
                             </label>
                             <br />
                             <label>
                                 Password
-                                <input onChange={handlePasswordChange} placeholder='password' type='password'></input>
+                            <input onChange={handlePasswordChange} placeholder='password' type='password'></input>
                             </label>
                             <br />
-                            <button type='submit'>Submit</button>
-                        </form>
-                    </div>
-                    <div className='authBoxSection registerBox'>
-                        <p className='authFormName'>Register going here</p>
-                        <form onSubmit={registerAccount}>
-                            <label>
-                                E-mail:
-                                <input onChange={handleEmailChange} placeholder='e-mail' type='email'></input>
-                            </label>
-                            <br />
-                            <label>
-                                Password
-                                <input onChange={handlePasswordChange} placeholder='password' type='password'></input>
-                            </label>
-                            <br />
-                            <button type='submit'>Submit</button>
+                            <button onClick={()=>{handleSignInRegister('login')}} value='login' name='login' type='submit'>Log In</button>
+                            <button onClick={()=>{handleSignInRegister('register')}} value='register' name='register' type='submit'>Register</button>
                         </form>
                     </div>
                 </div>
