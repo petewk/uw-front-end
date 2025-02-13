@@ -40,7 +40,7 @@ function SignInScreen({signedIn, setSignedIn}){
     }
     
     
-    function handleSignInRegister(buttonType){
+    function handleSignInRegister(buttonType:string):void{
         switch(buttonType ){
             case 'register':
                 createUserWithEmailAndPassword(auth, userName, passWord)
@@ -74,21 +74,27 @@ function SignInScreen({signedIn, setSignedIn}){
     }
 
     function handleFirebaseError(error){
+        console.log(error.code)
+        const passwordInput = document.getElementById('passwordInput')
+        const emailInput = document.getElementById('emailInput')
         switch(error.code){
             case 'auth/invalid-email':
-                console.log('problem with your login email')
+                emailInput?.classList.toggle('shake')
                 break;
 
             case 'auth/invalid-credential':
-                console.log('problem with your password')
-                 break;
+                console.log(passwordInput)
+                passwordInput?.classList.toggle('toggle')
+                break;
 
             case 'auth/email-already-in-use':
-                console.log('you already have an account');
+                emailInput?.classList.toggle('shake')
                 break;
 
             case 'auth/too-many-requests':
-                console.log('too many attempts, relax for a minute')
+                const wholeBox = document.getElementsByClassName('authContainer')[0];
+                wholeBox.classList.toggle('shake');
+                break;
         }
     }
 
@@ -103,24 +109,23 @@ function SignInScreen({signedIn, setSignedIn}){
     return (
         <div className='signInFullScreen'>
             <div className='authContainer'>
-                <div className='authBox'>
+
                     <div className='authBoxSection signInBox'>
                         <form onSubmit={(event)=>event.preventDefault()}>
                             <label>
-                            E-mail:
-                                <input onChange={handleEmailChange} placeholder='e-mail' type='email'></input>
+                            E-mail: <br />
+                                <input className="authFormsInput" id="emailInput" onChange={handleEmailChange} placeholder='Enter your e-mail' type='E mail'></input>
                             </label>
                             <br />
                             <label>
-                                Password
-                            <input onChange={handlePasswordChange} placeholder='password' type='password'></input>
+                                Password: <br /> 
+                            <input className="authFormsInput" id="passwordInput" onChange={handlePasswordChange} placeholder='Enter your Password' type='password'></input>
                             </label>
                             <br />
-                            <button onClick={()=>{handleSignInRegister('login')}} value='login' name='login' type='submit'>Log In</button>
-                            <button onClick={()=>{handleSignInRegister('register')}} value='register' name='register' type='submit'>Register</button>
+                            <button onClick={()=>{handleSignInRegister('login')}} className="loginButtons" value='login' name='login' type='submit'>Log In</button>
+                            <button onClick={()=>{handleSignInRegister('register')}} className="loginButtons" value='register' name='register' type='submit'>Register</button>
                         </form>
                     </div>
-                </div>
             </div>
         </div>
     )

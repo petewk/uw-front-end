@@ -44,6 +44,8 @@ body{
   display: flex;
   justify-content: center;
   align-items: center;
+  font-family: 'GoT';
+  letter-spacing: .2rem;
 }
 
 
@@ -52,20 +54,12 @@ body{
   height: 500px;
   border: 2px solid white;
   overflow: hidden;
-}
-
-.authTopButtons {
-  width: 100%;
-  height: 10%;
   display: flex;
+  flex-direction: column;
   justify-content: space-around;
-  padding: 5% 0;
+  border-radius: 8px;
 }
 
-.authBox {
-  height: 100%;
-  width: 100%;
-}
 
 .authBoxSection {
   width: 100%;
@@ -74,13 +68,11 @@ body{
   justify-content: space-around;
   align-items: center;
   color: white;
-  height: inherit;
+  height: 60%;
   justify-content: space-around;
+
 }
 
-.authBoxSection input {
-  width: 50%;
-}
 
 
 form {
@@ -92,8 +84,34 @@ form {
     align-items: center;
 }
 
-.authForms {
+.authFormsInput {
+  height:30px;
+  width: 250px;
+  text-align: center;
+  border-radius: 8px;
+}
 
+
+.shake {
+  animation: shake 0.5s
+}
+
+
+@keyframes shake {
+  0% {transform: translate(5px); }
+  16% {transform: translate(-5px)}
+  33% {transform: translate(5px)}
+  49% {transform: translate(-5px); background-color: var(--bolton);}
+  65% {transform: translate(5px)}
+  82% {transform: translate(-5px)}
+  100% {transform: translate(0px); background-color: white;}
+}
+
+
+.loginButtons {
+  width: 110px;
+  height: 50px;
+  border-radius: 8px;
 }
 
 
