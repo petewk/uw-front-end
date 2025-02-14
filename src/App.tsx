@@ -150,7 +150,7 @@ function App() {
                   currentQuote ? 
                   <span aria-live='assertive'>
                     <p  className='recentQuoteText'>{currentQuote.sentence}</p> 
-                    <p  className='recentQuoteName'>~{currentQuote.character.name}~</p>
+                    <p  className='recentQuoteName'>~{currentQuote.character.name}</p>
 
                   </span>
                   : 
@@ -190,3 +190,4 @@ function App() {
 }
 
 export default App
+
