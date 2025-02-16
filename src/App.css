@@ -161,6 +161,14 @@ form {
 }
 
 
+.resetPassword {
+  cursor: pointer;
+  font-size: 0.7em;
+  position: relative;
+  top: -25px;
+}
+
+
 /* Top Level styling for layout */
 
 .containerButtonQuote {

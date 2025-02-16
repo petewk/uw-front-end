@@ -3,7 +3,7 @@ import '../App.css'
 
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail } from "firebase/auth";
 
 
 
@@ -36,6 +36,8 @@ function SignInScreen({signedIn, setSignedIn}){
     const [passWord, setPassword] = useState('');
     const [message, setMessage] = useState('');
     
+
+    // function to handle the sign in request and the corresponding response
     
     function handleSignInRegister(buttonType:string):void{
         switch(buttonType){
@@ -77,6 +79,8 @@ function SignInScreen({signedIn, setSignedIn}){
     }
 
 
+    // Functions for visual feedback on the response to login attempts/failures
+
     function errorShake(element:HTMLElement):void{
         element?.classList.toggle('shake');
         setTimeout(()=>{
@@ -104,6 +108,9 @@ function SignInScreen({signedIn, setSignedIn}){
         customData: string,
         name: string
     }
+
+
+    // switch statement to determine the cause for the error and execute the visual feedback
 
     function handleFirebaseError(error:ErrorCode):void{
         const errorBox = document.getElementById('messageBox')
@@ -137,6 +144,21 @@ function SignInScreen({signedIn, setSignedIn}){
         }
     }
 
+    function resetPassword(email){
+        if(email){
+            sendPasswordResetEmail(auth, email)
+            .then(()=>{
+                alert('Please check your emails for a password reset')
+            })
+        } else {
+            errorShake(document.getElementById('emailInput'))
+           alert('Please enter an email to request a password reset')
+        }
+    }
+
+
+    // handling typing into the input boxes
+
     function handleEmailChange(event){
         setUsername(event?.target.value);
     }
@@ -161,6 +183,7 @@ function SignInScreen({signedIn, setSignedIn}){
                         <input className="authFormsInput" id="passwordInput" onChange={handlePasswordChange} placeholder='Enter your Password' type='password'></input>
                         </label>
                         <br />
+                        <p className='resetPassword' onClick={()=>{resetPassword(userName)}}>Click to reset password</p>
                         <button onClick={()=>{handleSignInRegister('register')}} className="loginButtons" value='register' name='register' type='submit'>Register</button>
                         <button onClick={()=>{handleSignInRegister('login')}} className="loginButtons" value='login' name='login' type='submit'>Log In</button>
                         </form>
