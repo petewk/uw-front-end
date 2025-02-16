@@ -3,8 +3,11 @@ import '../App.css'
 
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
+import { getFirestore } from 'firebase/firestore';
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail } from "firebase/auth";
 
+
+import { collection, getDocs, getDoc, setDoc, query, where, doc } from 'firebase/firestore';
 
 
 
@@ -24,18 +27,46 @@ function SignInScreen({signedIn, setSignedIn}){
       messagingSenderId: "129264600580",
       appId: "1:129264600580:web:6f803527e668df370e5751"
     };
+
     
     // Initialize Firebase
     const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app)
+
+
+    
     
     
     // Initialize Firebase Authentication and get a reference to the service
     const auth = getAuth(app);
-
+    
     const [userName, setUsername] = useState('');
     const [passWord, setPassword] = useState('');
     const [message, setMessage] = useState('');
     
+    
+    
+    // Function here trying to get user info from Firestore database
+    
+    const getQuery = query(collection(db, 'users'))
+
+
+    async function setUser(){
+        await setDoc(doc(db, 'users', userName),{
+            house: 'stark'
+        })
+    }
+
+
+    
+    async function checkUser(){
+        console.log(userName)
+        const querySnapshot = await getDocs(getQuery);
+        console.log(querySnapshot.docs)
+       }
+
+
+       checkUser();
 
     // function to handle the sign in request and the corresponding response
     
@@ -56,6 +87,9 @@ function SignInScreen({signedIn, setSignedIn}){
                             }, 2000)
                         }
                     })
+                    .then(()=>{
+                        setUser()
+                    })
                     .catch((error) => {
                         handleFirebaseError(error)
                     });
@@ -66,11 +100,11 @@ function SignInScreen({signedIn, setSignedIn}){
                     .then((userCredential) => {
                         if(userCredential){
                             const user = userCredential.user;
-                            console.log(user)
                             confirmFlash('authContainer')
                             setSignedIn(true)
                         }
                     })
+                        
                     .catch((error) => {
                         handleFirebaseError(error)
                     });
@@ -81,7 +115,7 @@ function SignInScreen({signedIn, setSignedIn}){
 
     // Functions for visual feedback on the response to login attempts/failures
 
-    function errorShake(element:HTMLElement):void{
+    function errorShake(element:HTMLElement|null):void{
         element?.classList.toggle('shake');
         setTimeout(()=>{
             element?.classList.toggle('shake')
@@ -90,7 +124,6 @@ function SignInScreen({signedIn, setSignedIn}){
 
     function confirmFlash(elementClass:string):void{
         let target = document.getElementsByClassName(elementClass)[0];
-        console.log(target);
         target.classList.add('flashGreen')
     }
 
@@ -152,7 +185,7 @@ function SignInScreen({signedIn, setSignedIn}){
             })
         } else {
             errorShake(document.getElementById('emailInput'))
-           alert('Please enter an email to request a password reset')
+            alert('Please enter an email to request a password reset')
         }
     }
 
