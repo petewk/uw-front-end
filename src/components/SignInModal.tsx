@@ -12,7 +12,7 @@ import { collection, getDocs, getDoc, setDoc, query, where, doc } from 'firebase
 
 
 
-function SignInScreen({signedIn, setSignedIn}){
+function SignInScreen({signedIn, setSignedIn, setUsersHouse, setUserId}){
 
 
     const key = import.meta.env.VITE_FIREBASE_KEY;
@@ -43,6 +43,8 @@ function SignInScreen({signedIn, setSignedIn}){
     const [userName, setUsername] = useState('');
     const [passWord, setPassword] = useState('');
     const [message, setMessage] = useState('');
+
+
     
     
     
@@ -60,13 +62,22 @@ function SignInScreen({signedIn, setSignedIn}){
 
     
     async function checkUser(){
-        console.log(userName)
         const querySnapshot = await getDocs(getQuery);
-        console.log(querySnapshot.docs)
        }
 
 
-       checkUser();
+    checkUser();
+
+
+    async function getCurrentUser(){
+        const loggedInUser = await getDoc(doc(db, 'users', userName));
+        console.log(loggedInUser)
+        setUsersHouse(loggedInUser._document.data.value.mapValue.fields.house.stringValue)
+        setUserId(loggedInUser._document.data.value.mapValue.fields.id.stringValue)
+        
+    }
+
+  
 
     // function to handle the sign in request and the corresponding response
     
@@ -91,11 +102,13 @@ function SignInScreen({signedIn, setSignedIn}){
                         setUser()
                     })
                     .catch((error) => {
+                        console.log(error)
                         handleFirebaseError(error)
                     });
                     break;
             case 'login' :
                 console.log('logging in')
+                getCurrentUser();
                 signInWithEmailAndPassword(auth, userName, passWord)
                     .then((userCredential) => {
                         if(userCredential){
@@ -166,6 +179,11 @@ function SignInScreen({signedIn, setSignedIn}){
 
             case 'auth/email-already-in-use':
                 showMessage('error', 'Email already registered')
+                errorShake(emailInput)
+                break;
+        
+            case 'auth/missing-password':
+                showMessage('error', 'Set a password to register')
                 errorShake(emailInput)
                 break;
 

@@ -32,6 +32,12 @@ body{
   line-height: 1.2rem;
 }
 
+.userInfo {
+  color: white;
+  font-family: 'GoT';
+  letter-spacing: .2rem;
+}
+
 .mainBox {
   padding-bottom: 25px;
 }

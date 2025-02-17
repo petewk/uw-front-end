@@ -11,15 +11,18 @@ import SignInScreen from './components/SignInModal.tsx'
 function App() {
 
   const [signedIn, setSignedIn] = useState(false);
+  
+  const [userId, setUserId] = useState('');
+  const [usersHouse, setUsersHouse] = useState('')
 
 
   return (
     <>
     {
       signedIn? 
-        <AppMain />
+        <AppMain userId={userId} usersHouse={usersHouse} />
         :
-        <SignInScreen signedIn={signedIn} setSignedIn={setSignedIn}/>
+        <SignInScreen setUserId={setUserId} setUsersHouse={setUsersHouse} signedIn={signedIn} setSignedIn={setSignedIn}/>
     }
     </>
   )

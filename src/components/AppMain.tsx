@@ -4,7 +4,7 @@ import '../App.css'
 import HouseSection from './HouseSection'
 
 
-function AppMain(){
+function AppMain({userId, usersHouse}){
 
       interface House {
         name: string,
@@ -125,9 +125,12 @@ function AppMain(){
         }
 
 
+        console.log(userId, usersHouse)
+
     return (
         <>
         <div className='mainBox'>
+          <p className="userInfo">{userId} of house {usersHouse}</p>
           {/* Section here displaying the most recent quote */}
 
           <div  className='containerButtonQuote'>
