@@ -1,28 +1,31 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import HouseSection from './components/HouseSection.tsx'
 import './App.css'
 import AppMain from './components/AppMain.tsx'
 import SignInScreen from './components/SignInModal.tsx'
 
+import { AuthContext } from './components/AuthContextProvider.tsx'
 
 
 
 
 function App() {
 
-  const [signedIn, setSignedIn] = useState(false);
-  
-  const [userId, setUserId] = useState('');
-  const [usersHouse, setUsersHouse] = useState('')
+  const { signedIn } = useContext(AuthContext)
+  const isLoaded = true
+
 
 
   return (
     <>
     {
-      signedIn? 
-        <AppMain userId={userId} usersHouse={usersHouse} />
-        :
-        <SignInScreen setUserId={setUserId} setUsersHouse={setUsersHouse} signedIn={signedIn} setSignedIn={setSignedIn}/>
+      isLoaded?
+        signedIn? 
+          <AppMain/>
+          :
+          <SignInScreen/>
+          :
+          null
     }
     </>
   )

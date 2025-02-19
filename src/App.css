@@ -38,6 +38,11 @@ body{
   letter-spacing: .2rem;
 }
 
+.signOut {
+  cursor:pointer;
+  text-decoration: underline;
+}
+
 .mainBox {
   padding-bottom: 25px;
 }

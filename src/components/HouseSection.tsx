@@ -2,7 +2,32 @@ import React, { useState, Fragment } from 'react';
 import CharacterAccordion from './CharacterAccordion';
 
 
-function HouseSection({ house, quotes }){
+
+interface House {
+    name: string,
+    slug: string,
+    members: Character[];
+  }
+
+  interface Character {
+    house: House,
+    name: string,
+    slug: string
+  }
+
+  interface QuoteElement {
+    character: Character,
+    sentence: string,
+    slug: string,
+    house: House
+  }
+
+interface HouseSectionProps {
+    house: House;
+    quotes: QuoteElement[];
+}
+
+function HouseSection({ house, quotes }:HouseSectionProps){
 
     const colorScheme = '--' + house.slug;
     
@@ -54,54 +79,6 @@ function HouseSection({ house, quotes }){
                         )
                     })
                 }
-
-
-
-                {/* <ul className='houseMembers'>
-
-                
-                    {
-                        house.members.map((member)=>{
-                            
-
-                            return (
-                                <Fragment key={member.slug}>
-                                    <li onClick={openCloseAccordion} className='houseMemberName'>{member.name}</li>
-
-                                
-
-                                    {
-                                        quotes.filter((quote:quoteElement)=>{
-                                                return quote.character.slug === member.slug
-                                            }).length > 0 ?
-                                           
-                                            <div className='accordionBody'>
-                                                <ul>
-                                                    {
-                        
-                                                        quotes.filter((quote:quoteElement)=>{
-                                                            return quote.character.slug === member.slug
-                                                        })?.map((value:quoteElement)=>{
-                                                            return (
-                                                                <li className="quoteText" key={value.sentence}>{value.sentence}</li>
-                                                            )
-                                                        })
-                        
-                                                    }
-
-                                                </ul>
-                                            </div>
-                                            :
-                                            null
-                                            
-                                        }
-
-                                </Fragment>
-                            )
-                        })
-                    }
-                    
-                </ul> */}
 
             </div>
         </div>

@@ -1,14 +1,22 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import '../App.css'
 
 import HouseSection from './HouseSection'
 
+import { AuthContext } from './AuthContextProvider'
 
-function AppMain({userId, usersHouse}){
+
+
+
+function AppMain(){
+
+
+  const { userId, usersHouse, signOutUser } = useContext(AuthContext);
 
       interface House {
         name: string,
-        slug: string
+        slug: string,
+        members: Character[]
       }
     
       interface Character {
@@ -55,9 +63,7 @@ function AppMain({userId, usersHouse}){
           
         }
       
-        // Three functions here which handle how to highlight elements on screen, depending on whether or not the box to be highlighted is within scroll view
-        
-      
+
         function boxIsVisible(id:string):boolean{
           let elementTop = document.getElementById(id)?.getBoundingClientRect().top || 0;
           let screenHeight = window.innerHeight;
@@ -97,7 +103,6 @@ function AppMain({userId, usersHouse}){
             method: "GET"
           })
           const newjson:QuoteElement = await newobject.json();
-          console.log(newjson);
           const hasDuplicate = quotes.some(element => element.sentence === newjson.sentence);
           if(hasDuplicate){
             console.log('duplicated')
@@ -125,12 +130,11 @@ function AppMain({userId, usersHouse}){
         }
 
 
-        console.log(userId, usersHouse)
-
     return (
         <>
         <div className='mainBox'>
           <p className="userInfo">{userId} of house {usersHouse}</p>
+          <p className="userInfo signOut" onClick={signOutUser}>Sign Out?</p>
           {/* Section here displaying the most recent quote */}
 
           <div  className='containerButtonQuote'>
