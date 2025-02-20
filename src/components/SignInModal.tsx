@@ -13,16 +13,11 @@ function SignInScreen(){
     const { setPassword, userName, setUsername, resetPassword, handleSignInRegister, message } = useContext(AuthContext)
 
 
-    const key = import.meta.env.VITE_FIREBASE_KEY;
-    
-    
-    // handling typing into the input boxes
-
-    function handleEmailChange(event: React.MouseEvent<HTMLInputElement>):void{
+    function handleEmailChange(event: React.ChangeEvent<HTMLInputElement>):void{
         setUsername(event?.currentTarget.value);
     }
 
-    function handlePasswordChange(event: React.MouseEvent<HTMLInputElement>):void{
+    const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>):void=>{
         setPassword(event?.currentTarget.value);
         console.log('changing password')
     }
