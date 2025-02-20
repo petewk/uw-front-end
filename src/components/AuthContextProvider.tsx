@@ -58,7 +58,7 @@ type AuthContextType = {
   setUserId:  React.Dispatch<React.SetStateAction<string>>;
   usersHouse:  string;
   setUsersHouse:  React.Dispatch<React.SetStateAction<string>>;
-  signOutUser: firebaseAsyncFunction;
+  signOutUser: any;
 };
 
 export const AuthContext = createContext<AuthContextType>({} as AuthContextType);

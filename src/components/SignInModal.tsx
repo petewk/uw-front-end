@@ -1,5 +1,6 @@
 import React, { useContext } from 'react'
 import '../App.css'
+import { createPortal } from 'react-dom';
 
 
 import { AuthContext } from './AuthContextProvider';
@@ -23,13 +24,27 @@ function SignInScreen(){
 
     function handlePasswordChange(event: React.MouseEvent<HTMLInputElement>):void{
         setPassword(event?.currentTarget.value);
+        console.log('changing password')
     }
+    
+    const targetNode = document.getElementById('authBoxSection');
+    console.log(targetNode)
+
+
 
     return (
         <div className='signInFullScreen'>
             <div className='authContainer'>
-                <p className="messageBox" id="messageBox">{message}</p>
-                <div className='authBoxSection signInBox'>
+                {
+                    targetNode ? 
+                    createPortal(
+                        <p className="messageBox" id="messageBox">{message}</p>,
+                        targetNode
+                    )
+                    :
+                    null
+                }
+                <div className='authBoxSection signInBox' id="authBoxSection">
                     <form onSubmit={(event)=>event.preventDefault()}>
                         <label>
                         E-mail: <br />

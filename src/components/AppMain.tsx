@@ -31,6 +31,11 @@ function AppMain(){
         slug: string,
         house: House
       }
+
+      interface ErrorResponse {
+        SyntaxError: string,
+        message: string,
+      }
       
       interface QuoteElements extends Array<QuoteElement>{}
     
@@ -57,7 +62,7 @@ function AppMain(){
         
             const fetchedHouses = await result.json();
             setHouses(fetchedHouses)
-          } catch(error){
+          } catch(error:any){
             console.error(error.message)
           }
           
@@ -166,7 +171,7 @@ function AppMain(){
           <div className='containerHouses'>
             {
               houses?.length > 0 &&
-              houses.map((house:QuoteElement)=>{
+              houses.map((house:House)=>{
                 return (
                   <HouseSection house={house} quotes={quotes} key={house.slug} />
                 )
